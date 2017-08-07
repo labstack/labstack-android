@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/labstack/labstack.iml" filepath="$PROJECT_DIR$/labstack/labstack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/labstack-android.iml" filepath="$PROJECT_DIR$/labstack-android.iml" />
+    </modules>
+  </component>
+</project>
