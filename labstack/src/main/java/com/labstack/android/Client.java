@@ -15,10 +15,14 @@ public class Client extends com.labstack.Client {
         this.context = context;
     }
 
+    public Log log() {
+        return new Log(this);
+    }
+
     public Mqtt mqtt(String clientId) throws MqttException {
         try {
-            IMqttAsyncClient client = new MqttAndroidClient(context, Client.MQTT_BROKER, clientId);
-            return new Mqtt(context, getAccountId(), getApiKey(), clientId, client);
+            IMqttAsyncClient mqttClient = new MqttAndroidClient(context, Client.MQTT_BROKER, clientId);
+            return new Mqtt(this, mqttClient, clientId);
         } catch (org.eclipse.paho.client.mqttv3.MqttException e) {
             throw new MqttException(e.getReasonCode(), e.getMessage());
         }
