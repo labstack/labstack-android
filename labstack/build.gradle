@@ -35,14 +35,14 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.0'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.0'
     compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-    compile 'com.labstack:labstack-java:0.6.19'
+    compile 'com.labstack:labstack-java:0.6.28'
 }
 
 publish {
     userOrg = 'labstack'
     groupId = 'com.labstack'
     artifactId = 'labstack-android'
-    publishVersion = '0.6.25'
+    publishVersion = '0.6.37'
     desc = 'Official Android client library for the LabStack platform'
     website = 'https://github.com/labstack/labstack-android'
 }

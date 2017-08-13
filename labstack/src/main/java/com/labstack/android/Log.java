@@ -1,50 +1,67 @@
 package com.labstack.android;
 
-import android.os.AsyncTask;
+import android.os.StrictMode;
 
-import com.labstack.*;
+import com.labstack.Fields;
+import com.labstack.LogCallback;
+import com.labstack.LogException;
 
-public class Log extends com.labstack.Log {
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
-    private class Dispatch extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected Void doInBackground(Void... voids) {
-            Log.super.dispatch();
-            return null;
-        }
-    }
-
+public class Log extends com.labstack.Log implements Thread.UncaughtExceptionHandler {
     protected Log(Client client) {
         super(client);
+        defaultUncaughtExceptionHandle = Thread.getDefaultUncaughtExceptionHandler();
+        Thread.setDefaultUncaughtExceptionHandler(this);
     }
+    private LogCallback defaultLogCallback = new LogCallback() {
+        @Override
+        public void onSuccess() {
+        }
 
-    @Override
-    protected void dispatch() throws LogException {
-        new Dispatch().execute();
+        @Override
+        public void onError(LogException e) {
+            e.printStackTrace();
+        }
+    };
+    private Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandle;
+
+    private static String getStackTrace(Throwable throwable) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        throwable.printStackTrace(printWriter);
+        return stringWriter.toString();
     }
 
     @Override
     public void debug(Fields fields) {
-        super.debug(fields);
+        super.debug(fields, defaultLogCallback);
     }
 
     @Override
     public void info(Fields fields) {
-        super.info(fields);
+        super.info(fields, defaultLogCallback);
     }
 
     @Override
     public void warn(Fields fields) {
-        super.warn(fields);
+        super.warn(fields, defaultLogCallback);
     }
 
     @Override
     public void error(Fields fields) {
-        super.error(fields);
+        super.error(fields, defaultLogCallback);
     }
 
     @Override
-    public void fatal(Fields fields) {
-        super.fatal(fields);
+    // Automatically report uncaught fatal error
+    public void uncaughtException(Thread thread, Throwable throwable) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        fatal(new Fields()
+                .add("message", throwable.getMessage())
+                .add("stack_trace", getStackTrace(throwable)));
+        defaultUncaughtExceptionHandle.uncaughtException(thread, throwable);
     }
 }
