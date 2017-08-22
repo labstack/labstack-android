@@ -6,15 +6,7 @@ import com.labstack.Fields;
 import com.labstack.LogCallback;
 import com.labstack.LogException;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 public class Log extends com.labstack.Log implements Thread.UncaughtExceptionHandler {
-    protected Log(Client client) {
-        super(client);
-        defaultUncaughtExceptionHandle = Thread.getDefaultUncaughtExceptionHandler();
-        Thread.setDefaultUncaughtExceptionHandler(this);
-    }
     private LogCallback defaultLogCallback = new LogCallback() {
         @Override
         public void onSuccess() {
@@ -25,13 +17,9 @@ public class Log extends com.labstack.Log implements Thread.UncaughtExceptionHan
             e.printStackTrace();
         }
     };
-    private Thread.UncaughtExceptionHandler defaultUncaughtExceptionHandle;
 
-    private static String getStackTrace(Throwable throwable) {
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        throwable.printStackTrace(printWriter);
-        return stringWriter.toString();
+    protected Log(Client client) {
+        super(client);
     }
 
     @Override
