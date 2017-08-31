@@ -23,7 +23,7 @@ public class Client extends com.labstack.Client {
     public Connect connect(String clientId) throws ConnectException {
         try {
             IMqttAsyncClient mqttClient = new MqttAndroidClient(context, Client.MQTT_BROKER, clientId);
-            return new Connect(this, mqttClient, clientId);
+            return new Connect(this.accountId, this.apiKey, mqttClient);
         } catch (MqttException e) {
             throw new ConnectException(e.getReasonCode(), e.getMessage());
         }
