@@ -2,7 +2,7 @@ package com.labstack.android;
 
 import android.content.Context;
 
-import com.labstack.ConnectException;
+import com.labstack.QueueException;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttAsyncClient;
@@ -20,12 +20,12 @@ public class Client extends com.labstack.Client {
         return new Log(this);
     }
 
-    public Connect connect(String clientId) throws ConnectException {
+    public Queue queue(String clientId) throws QueueException {
         try {
             IMqttAsyncClient mqttClient = new MqttAndroidClient(context, Client.MQTT_BROKER, clientId);
-            return new Connect(this.accountId, this.apiKey, mqttClient);
+            return new Queue(this.accountId, this.apiKey, mqttClient);
         } catch (MqttException e) {
-            throw new ConnectException(e.getReasonCode(), e.getMessage());
+            throw new QueueException(e.getReasonCode(), e.getMessage());
         }
     }
 }
