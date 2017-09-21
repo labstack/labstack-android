@@ -6,7 +6,7 @@
 
 ```groovy
 dependencies {
-    compile 'com.labstack:labstack-android:0.6.37'
+    compile 'com.labstack:labstack-android:0.8.0'
 }
 ```
 
@@ -17,23 +17,8 @@ dependencies {
 `MainActivity.java`
 
 ```java
-package main;
-
-import com.labstack.android.Client;
-import com.labstack.Document;
-import com.labstack.Store;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-        Client client = new Client("<ACCOUNT_ID>", "<API_KEY>");
-        Store store = client.store();
-        Document document = store.insert("users", new Document()
-               .add("name", "Jack")
-               .add("location", "Disney"));
-    }
-}
 ```
 
 Run your app in the configured device
 
-## [Docs](https://labstack.com/docs) | [Forum](https://forum.labstack.com)
+## [Documentation](https://labstack.com/docs) | [Forum](https://forum.labstack.com)

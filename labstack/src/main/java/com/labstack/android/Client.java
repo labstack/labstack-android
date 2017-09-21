@@ -2,7 +2,7 @@ package com.labstack.android;
 
 import android.content.Context;
 
-import com.labstack.MessageException;
+import com.labstack.HubException;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttAsyncClient;
@@ -16,16 +16,12 @@ public class Client extends com.labstack.Client {
         this.context = context;
     }
 
-    public Log log() {
-        return new Log(this);
-    }
-
-    public Message message(String clientId) throws MessageException {
+    public Hub message(String clientId) throws HubException {
         try {
             IMqttAsyncClient mqttClient = new MqttAndroidClient(context, Client.MQTT_BROKER, clientId);
-            return new Message(this.accountId, this.apiKey, mqttClient);
+            return new Hub(this.accountId, this.apiKey, mqttClient);
         } catch (MqttException e) {
-            throw new MessageException(e.getReasonCode(), e.getMessage());
+            throw new HubException(e.getReasonCode(), e.getMessage());
         }
     }
 }
